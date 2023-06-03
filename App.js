@@ -1,22 +1,19 @@
-// import { StatusBar } from "expo-status-bar";
-import { useState } from "react";
-import { StyleSheet, TextInput, View } from "react-native";
+import RegistrationScreen from "./Screens/RegistrationScreen/RegistrationScreen";
+import LoginScreen from "./Screens/LoginScreen/LoginScreen";
+import { useFonts } from "expo-font";
 
-export default function App() {
-  const [text, setText] = useState("");
+export default App = () => {
+  const [fontsLoaded] = useFonts({
+    Roboto400: require("./assets/fonts/Roboto-Regular.ttf"),
+    Roboto500: require("./assets/fonts/Roboto-Medium.ttf"),
+  });
+  if (!fontsLoaded) {
+    return null;
+  }
   return (
-    <View style={styles.container}>
-      <TextInput placeholder="Type text" value={text} onChangeText={setText} />
-    </View>
+    <>
+      <RegistrationScreen />
+      {/* <LoginScreen /> */}
+    </>
   );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "flex-end",
-    paddingBottom: 30,
-  },
-});
+};
