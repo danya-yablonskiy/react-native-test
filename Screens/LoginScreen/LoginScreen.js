@@ -7,6 +7,7 @@ import {
   ImageBackground,
   TouchableOpacity,
   StatusBar,
+  KeyboardAvoidingView,
 } from "react-native";
 
 const LoginScreen = () => {
@@ -18,13 +19,21 @@ const LoginScreen = () => {
         style={styles.container}
       >
         <StatusBar barStyle="dark-content" />
-        <View style={styles.containerForm}>
+        <KeyboardAvoidingView
+          style={styles.containerForm}
+          behavior={Platform.OS == "ios" ? "padding" : "height"}
+        >
           <Text style={styles.title}>Увійти</Text>
           <TextInput
             placeholder="Адрес електронної пошти"
             style={styles.inputEmail}
+            inputMode="email"
           />
-          <TextInput placeholder="Пароль" style={styles.inputPass} />
+          <TextInput
+            placeholder="Пароль"
+            style={styles.inputPass}
+            secureTextEntry={true}
+          />
           <View style={styles.btnContainer}>
             <Pressable style={styles.showBtn}>
               <Text style={styles.showBtnText}>{"Показати"}</Text>
@@ -36,10 +45,12 @@ const LoginScreen = () => {
               <Text style={styles.buttonText}>Увійти</Text>
             </TouchableOpacity>
             <Pressable>
-              <Text style={styles.authText}>Немає акаунту? Зареєструватися</Text>
+              <Text style={styles.authText}>
+                Немає акаунту? <Text style={styles.authWord }>Зареєструватися</Text>
+              </Text>
             </Pressable>
           </View>
-        </View>
+        </KeyboardAvoidingView>
       </ImageBackground>
     </View>
   );
@@ -116,6 +127,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     lineHeight: 19,
     color: "#1B4371",
+    marginBottom: 111,
   },
 
   showBtn: {
@@ -129,5 +141,8 @@ const styles = StyleSheet.create({
     lineHeight: 19,
     color: "#1B4371",
   },
+  authWord: {
+    textDecorationLine: true,
+  }
 });
 export default LoginScreen;
