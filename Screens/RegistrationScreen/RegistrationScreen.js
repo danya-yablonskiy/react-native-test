@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   Image,
   StatusBar,
+  KeyboardAvoidingView,
 } from "react-native";
 
 const RegistrationScreen = () => {
@@ -24,7 +25,8 @@ const RegistrationScreen = () => {
           backgroundColor="#61dafb"
           barStyle="dark-content"
         />
-        <View style={styles.containerForm}>
+
+        <KeyboardAvoidingView style={styles.containerForm} behavior={"padding"}>
           <View style={styles.avatar}>
             <Image
               source={require("../RegistrationScreen/add.png")}
@@ -32,12 +34,21 @@ const RegistrationScreen = () => {
             />
           </View>
           <Text style={styles.title}>Реєстрація</Text>
-          <TextInput placeholder="Логін" style={styles.inputLogin} />
+          <TextInput
+            placeholder="Логін"
+            style={styles.inputLogin}
+            inputMode="text"
+          />
           <TextInput
             placeholder="Адрес електронної пошти"
             style={styles.inputEmail}
+            inputMode="email"
           />
-          <TextInput placeholder="Пароль" style={styles.inputPass} />
+          <TextInput
+            placeholder="Пароль"
+            style={styles.inputPass}
+            secureTextEntry={true}
+          />
           <View style={styles.btnContainer}>
             <Pressable style={styles.showBtn}>
               <Text style={styles.showBtnText}>{"Показати"}</Text>
@@ -52,7 +63,7 @@ const RegistrationScreen = () => {
               <Text style={styles.authText}>Уже є акаунт? Увійти</Text>
             </Pressable>
           </View>
-        </View>
+        </KeyboardAvoidingView>
       </ImageBackground>
     </View>
   );
@@ -160,6 +171,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     lineHeight: 19,
     color: "#1B4371",
+    marginBottom: 45,
   },
 
   showBtn: {
