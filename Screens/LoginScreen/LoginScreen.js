@@ -21,7 +21,7 @@ const LoginScreen = () => {
         <StatusBar barStyle="dark-content" />
         <KeyboardAvoidingView
           style={styles.containerForm}
-          behavior={Platform.OS == "ios" ? "padding" : "height"}
+          behavior={ "padding" }
         >
           <Text style={styles.title}>Увійти</Text>
           <TextInput
