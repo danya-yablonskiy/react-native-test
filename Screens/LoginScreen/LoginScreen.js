@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   TextInput,
   View,
@@ -8,51 +9,79 @@ import {
   TouchableOpacity,
   StatusBar,
   KeyboardAvoidingView,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from "react-native";
 
 const LoginScreen = () => {
-  return (
-    <View style={styles.container}>
-      <ImageBackground
-        source={require("../RegistrationScreen/bgImage.png")}
-        resizeMode="cover"
-        style={styles.container}
-      >
-        <StatusBar barStyle="dark-content" />
-        <KeyboardAvoidingView
-          style={styles.containerForm}
-          behavior={ "padding" }
-        >
-          <Text style={styles.title}>Увійти</Text>
-          <TextInput
-            placeholder="Адрес електронної пошти"
-            style={styles.inputEmail}
-            inputMode="email"
-          />
-          <TextInput
-            placeholder="Пароль"
-            style={styles.inputPass}
-            secureTextEntry={true}
-          />
-          <View style={styles.btnContainer}>
-            <Pressable style={styles.showBtn}>
-              <Text style={styles.showBtnText}>{"Показати"}</Text>
-            </Pressable>
-          </View>
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-          <View>
-            <TouchableOpacity style={styles.button}>
-              <Text style={styles.buttonText}>Увійти</Text>
-            </TouchableOpacity>
-            <Pressable>
-              <Text style={styles.authText}>
-                Немає акаунту? <Text style={styles.authWord }>Зареєструватися</Text>
-              </Text>
-            </Pressable>
-          </View>
-        </KeyboardAvoidingView>
-      </ImageBackground>
-    </View>
+  const [isInputEmailActive, setIsInputEmailActive] = useState(false);
+  const [isInputPasswordActive, setIsInputPasswordActive] = useState(false);
+
+  const [isSecureTextEntry, setIsSecureTextEntry] = useState(true);
+  const secureTextEntryToggle = () => {
+    setIsSecureTextEntry((prev) => !prev);
+  };
+  const handleSubmit = () => {
+    console.log("email:", email);
+    console.log("password:", password);
+  };
+  return (
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <View style={styles.container}>
+        <ImageBackground
+          source={require("../RegistrationScreen/bgImage.png")}
+          resizeMode="cover"
+          style={styles.container}
+        >
+          <StatusBar barStyle="dark-content" />
+          {/* Додав в app.json: "softwareKeyboardLayoutMode": "pan" тепер на андроїд все ок, а на IOS кудись зникає відступ*/}
+          <KeyboardAvoidingView
+            style={styles.containerForm}
+            behavior={Platform.OS == "ios" ? "padding" : "height"}
+          >
+            <Text style={styles.title}>Увійти</Text>
+            <TextInput
+              placeholder="Адрес електронної пошти"
+              style={isInputEmailActive ? styles.inputFocused : styles.input}
+              inputMode="email"
+              value={email}
+              onChangeText={setEmail}
+              onFocus={() => setIsInputEmailActive(true)}
+              onBlur={() => setIsInputEmailActive(false)}
+            />
+            <TextInput
+              placeholder="Пароль"
+              style={isInputPasswordActive ? styles.inputFocused : styles.input}
+              secureTextEntry={isSecureTextEntry}
+              value={password}
+              onChangeText={setPassword}
+              onFocus={() => setIsInputPasswordActive(true)}
+              onBlur={() => setIsInputPasswordActive(false)}
+            />
+            <View>
+              <Pressable style={styles.showBtn} onPress={secureTextEntryToggle}>
+                <Text style={styles.showBtnText}>{"Показати"}</Text>
+              </Pressable>
+            </View>
+
+            <View style={styles.padding}>
+              <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+                <Text style={styles.buttonText}>Увійти</Text>
+              </TouchableOpacity>
+              <Pressable>
+                <Text style={styles.authText}>
+                  Немає акаунту?
+                  <Text style={styles.authWord}> Зареєструватися</Text>
+                </Text>
+              </Pressable>
+            </View>
+          </KeyboardAvoidingView>
+        </ImageBackground>
+      </View>
+    </TouchableWithoutFeedback>
   );
 };
 
@@ -66,7 +95,7 @@ const styles = StyleSheet.create({
     paddingLeft: 16,
     paddingRight: 16,
     paddingTop: 32,
-    paddingBottom: 111,
+    // paddingBottom: 111, не працює(((
     backgroundColor: "#fff",
     width: "100%",
     borderTopLeftRadius: 25,
@@ -80,7 +109,7 @@ const styles = StyleSheet.create({
     marginBottom: 33,
     color: "#212121",
   },
-  inputEmail: {
+  input: {
     height: 50,
     marginBottom: 16,
     fontFamily: "Roboto400",
@@ -93,26 +122,26 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     padding: 16,
   },
-  inputPass: {
+  inputFocused: {
     height: 50,
+    marginBottom: 16,
     fontFamily: "Roboto400",
     fontSize: 16,
     lineHeight: 19,
     borderWidth: 1,
     borderStyle: "solid",
-    borderColor: "#E8E8E8",
+    borderColor: "#FF6C00",
     backgroundColor: "#F6F6F6",
     borderRadius: 8,
     padding: 16,
   },
-
   button: {
     alignItems: "center",
     paddingTop: 16,
     paddingBottom: 16,
     borderRadius: 100,
     backgroundColor: "#FF6C00",
-    marginTop: 43,
+    marginTop: 27,
   },
   buttonText: {
     color: "#fff",
@@ -127,12 +156,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
     lineHeight: 19,
     color: "#1B4371",
-    marginBottom: 111,
   },
 
   showBtn: {
     position: "absolute",
-    top: -35,
+    top: -52,
     right: 16,
   },
   showBtnText: {
@@ -143,6 +171,9 @@ const styles = StyleSheet.create({
   },
   authWord: {
     textDecorationLine: true,
-  }
+  },
+  padding: {
+    paddingBottom: 111,
+  },
 });
 export default LoginScreen;
