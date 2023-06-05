@@ -1,3 +1,4 @@
+import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
 import {
   TextInput,
@@ -21,6 +22,7 @@ const LoginScreen = () => {
   const [isInputPasswordActive, setIsInputPasswordActive] = useState(false);
 
   const [isSecureTextEntry, setIsSecureTextEntry] = useState(true);
+  const navigation = useNavigation();
   const secureTextEntryToggle = () => {
     setIsSecureTextEntry((prev) => !prev);
   };
@@ -37,46 +39,51 @@ const LoginScreen = () => {
           style={styles.container}
         >
           <StatusBar barStyle="dark-content" />
-          {/* Додав в app.json: "softwareKeyboardLayoutMode": "pan" тепер на андроїд все ок, а на IOS кудись зникає відступ*/}
           <KeyboardAvoidingView
-            style={styles.containerForm}
             behavior={Platform.OS == "ios" ? "padding" : "height"}
           >
-            <Text style={styles.title}>Увійти</Text>
-            <TextInput
-              placeholder="Адрес електронної пошти"
-              style={isInputEmailActive ? styles.inputFocused : styles.input}
-              inputMode="email"
-              value={email}
-              onChangeText={setEmail}
-              onFocus={() => setIsInputEmailActive(true)}
-              onBlur={() => setIsInputEmailActive(false)}
-            />
-            <TextInput
-              placeholder="Пароль"
-              style={isInputPasswordActive ? styles.inputFocused : styles.input}
-              secureTextEntry={isSecureTextEntry}
-              value={password}
-              onChangeText={setPassword}
-              onFocus={() => setIsInputPasswordActive(true)}
-              onBlur={() => setIsInputPasswordActive(false)}
-            />
-            <View>
-              <Pressable style={styles.showBtn} onPress={secureTextEntryToggle}>
-                <Text style={styles.showBtnText}>{"Показати"}</Text>
-              </Pressable>
-            </View>
+            <View style={styles.containerForm}>
+              <Text style={styles.title}>Увійти</Text>
+              <TextInput
+                placeholder="Адрес електронної пошти"
+                style={isInputEmailActive ? styles.inputFocused : styles.input}
+                inputMode="email"
+                value={email}
+                onChangeText={setEmail}
+                onFocus={() => setIsInputEmailActive(true)}
+                onBlur={() => setIsInputEmailActive(false)}
+              />
+              <TextInput
+                placeholder="Пароль"
+                style={
+                  isInputPasswordActive ? styles.inputFocused : styles.input
+                }
+                secureTextEntry={isSecureTextEntry}
+                value={password}
+                onChangeText={setPassword}
+                onFocus={() => setIsInputPasswordActive(true)}
+                onBlur={() => setIsInputPasswordActive(false)}
+              />
+              <View>
+                <Pressable
+                  style={styles.showBtn}
+                  onPress={secureTextEntryToggle}
+                >
+                  <Text style={styles.showBtnText}>{"Показати"}</Text>
+                </Pressable>
+              </View>
 
-            <View style={styles.padding}>
-              <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-                <Text style={styles.buttonText}>Увійти</Text>
-              </TouchableOpacity>
-              <Pressable>
-                <Text style={styles.authText}>
-                  Немає акаунту?
-                  <Text style={styles.authWord}> Зареєструватися</Text>
-                </Text>
-              </Pressable>
+              <View>
+                <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+                  <Text style={styles.buttonText}>Увійти</Text>
+                </TouchableOpacity>
+                <Pressable onPress={() => navigation.navigate("Registration")}>
+                  <Text style={styles.authText}>
+                    Немає акаунту?
+                    <Text style={styles.authWord}> Зареєструватися</Text>
+                  </Text>
+                </Pressable>
+              </View>
             </View>
           </KeyboardAvoidingView>
         </ImageBackground>
@@ -95,7 +102,7 @@ const styles = StyleSheet.create({
     paddingLeft: 16,
     paddingRight: 16,
     paddingTop: 32,
-    // paddingBottom: 111, не працює(((
+    paddingBottom: 111,
     backgroundColor: "#fff",
     width: "100%",
     borderTopLeftRadius: 25,
@@ -170,10 +177,7 @@ const styles = StyleSheet.create({
     color: "#1B4371",
   },
   authWord: {
-    textDecorationLine: true,
-  },
-  padding: {
-    paddingBottom: 111,
+    textDecorationLine: "underline",
   },
 });
 export default LoginScreen;
