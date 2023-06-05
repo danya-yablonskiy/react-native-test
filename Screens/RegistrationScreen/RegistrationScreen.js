@@ -1,3 +1,4 @@
+import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
 import {
   TextInput,
@@ -25,6 +26,7 @@ const RegistrationScreen = () => {
 
   const [isSecureTextEntry, setIsSecureTextEntry] = useState(true);
 
+  const navigation = useNavigation();
   const secureTextEntryToggle = () => {
     setIsSecureTextEntry((prev) => !prev);
   };
@@ -47,58 +49,64 @@ const RegistrationScreen = () => {
             backgroundColor="#61dafb"
             barStyle="dark-content"
           />
-          {/* Додав в app.json: "softwareKeyboardLayoutMode": "pan" тепер на андроїд все ок, а на IOS кудись зникає відступ*/}
           <KeyboardAvoidingView
-            style={styles.containerForm}
-            behavior={Platform.OS == "ios" ? "padding" : "height"}
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
           >
-            <View style={styles.avatar}>
-              <Image
-                source={require("../RegistrationScreen/add.png")}
-                style={styles.addButton}
+            {/* Додав в app.json: "softwareKeyboardLayoutMode": "pan" тепер на андроїд все ок, а на IOS кудись зникає відступ*/}
+            <View style={styles.containerForm}>
+              <View style={styles.avatar}>
+                <Image
+                  source={require("../RegistrationScreen/add.png")}
+                  style={styles.addButton}
+                />
+              </View>
+              <Text style={styles.title}>Реєстрація</Text>
+              <TextInput
+                placeholder="Логін"
+                style={isInputLoginActive ? styles.inputFocused : styles.input}
+                inputMode="text"
+                value={login}
+                onChangeText={setLogin}
+                onFocus={() => setIsInputLoginActive(true)}
+                onBlur={() => setIsInputLoginActive(false)}
               />
-            </View>
-            <Text style={styles.title}>Реєстрація</Text>
-            <TextInput
-              placeholder="Логін"
-              style={isInputLoginActive ? styles.inputFocused : styles.input}
-              inputMode="text"
-              value={login}
-              onChangeText={setLogin}
-              onFocus={() => setIsInputLoginActive(true)}
-              onBlur={() => setIsInputLoginActive(false)}
-            />
-            <TextInput
-              placeholder="Адрес електронної пошти"
-              style={isInputEmailActive ? styles.inputFocused : styles.input}
-              inputMode="email"
-              value={email}
-              onChangeText={setEmail}
-              onFocus={() => setIsInputEmailActive(true)}
-              onBlur={() => setIsInputEmailActive(false)}
-            />
-            <TextInput
-              placeholder="Пароль"
-              style={isInputPasswordActive ? styles.inputFocused : styles.input}
-              secureTextEntry={isSecureTextEntry}
-              value={password}
-              onChangeText={setPassword}
-              onFocus={() => setIsInputPasswordActive(true)}
-              onBlur={() => setIsInputPasswordActive(false)}
-            />
-            <View>
-              <Pressable style={styles.showBtn} onPress={secureTextEntryToggle}>
-                <Text style={styles.showBtnText}>Показати</Text>
-              </Pressable>
-            </View>
+              <TextInput
+                placeholder="Адрес електронної пошти"
+                style={isInputEmailActive ? styles.inputFocused : styles.input}
+                inputMode="email"
+                value={email}
+                onChangeText={setEmail}
+                onFocus={() => setIsInputEmailActive(true)}
+                onBlur={() => setIsInputEmailActive(false)}
+              />
+              <TextInput
+                placeholder="Пароль"
+                style={
+                  isInputPasswordActive ? styles.inputFocused : styles.input
+                }
+                secureTextEntry={isSecureTextEntry}
+                value={password}
+                onChangeText={setPassword}
+                onFocus={() => setIsInputPasswordActive(true)}
+                onBlur={() => setIsInputPasswordActive(false)}
+              />
+              <View>
+                <Pressable
+                  style={styles.showBtn}
+                  onPress={secureTextEntryToggle}
+                >
+                  <Text style={styles.showBtnText}>Показати</Text>
+                </Pressable>
+              </View>
 
-            <View style={styles.padding}>
-              <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-                <Text style={styles.buttonText}>Зареєструватися</Text>
-              </TouchableOpacity>
-              <Pressable>
-                <Text style={styles.authText}>Уже є акаунт? Увійти</Text>
-              </Pressable>
+              <View>
+                <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+                  <Text style={styles.buttonText}>Зареєструватися</Text>
+                </TouchableOpacity>
+                <Pressable onPress={() => navigation.navigate("Login")}>
+                  <Text style={styles.authText}>Уже є акаунт? Увійти</Text>
+                </Pressable>
+              </View>
             </View>
           </KeyboardAvoidingView>
         </ImageBackground>
@@ -144,6 +152,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
+    paddingBottom: 45,
   },
   input: {
     height: 50,
@@ -204,9 +213,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     lineHeight: 19,
     color: "#1B4371",
-  },
-  padding: {
-    paddingBottom: 45,
   },
 });
 export default RegistrationScreen;
