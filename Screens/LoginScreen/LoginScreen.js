@@ -31,17 +31,19 @@ const LoginScreen = () => {
     console.log("password:", password);
   };
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <View style={styles.container}>
-        <ImageBackground
-          source={require("../RegistrationScreen/bgImage.png")}
-          resizeMode="cover"
-          style={styles.container}
-        >
-          <StatusBar barStyle="dark-content" />
-          <KeyboardAvoidingView
-            behavior={Platform.OS == "ios" ? "padding" : "height"}
+    <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      behavior={Platform.OS == "ios" ? "padding" : "height"}
+    >
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View style={styles.container}>
+          <ImageBackground
+            source={require("../RegistrationScreen/bgImage.png")}
+            resizeMode="cover"
+            style={styles.container}
           >
+            <StatusBar barStyle="dark-content" />
+
             <View style={styles.containerForm}>
               <Text style={styles.title}>Увійти</Text>
               <TextInput
@@ -85,10 +87,10 @@ const LoginScreen = () => {
                 </Pressable>
               </View>
             </View>
-          </KeyboardAvoidingView>
-        </ImageBackground>
-      </View>
-    </TouchableWithoutFeedback>
+          </ImageBackground>
+        </View>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
   );
 };
 
