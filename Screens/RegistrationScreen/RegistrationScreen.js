@@ -37,21 +37,23 @@ const RegistrationScreen = () => {
     console.log("password:", password);
   };
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <View style={styles.container}>
-        <ImageBackground
-          source={require("../RegistrationScreen/bgImage.png")}
-          resizeMode="cover"
-          style={styles.container}
-        >
-          <StatusBar
-            style="auto"
-            backgroundColor="#61dafb"
-            barStyle="dark-content"
-          />
-          <KeyboardAvoidingView
-            behavior={Platform.OS === "ios" ? "padding" : "height"}
+    <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+    >
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View style={styles.container}>
+          <ImageBackground
+            source={require("../RegistrationScreen/bgImage.png")}
+            resizeMode="cover"
+            style={styles.container}
           >
+            <StatusBar
+              style="auto"
+              backgroundColor="#61dafb"
+              barStyle="dark-content"
+            />
+
             {/* Додав в app.json: "softwareKeyboardLayoutMode": "pan" тепер на андроїд все ок, а на IOS кудись зникає відступ*/}
             <View style={styles.containerForm}>
               <View style={styles.avatar}>
@@ -108,10 +110,10 @@ const RegistrationScreen = () => {
                 </Pressable>
               </View>
             </View>
-          </KeyboardAvoidingView>
-        </ImageBackground>
-      </View>
-    </TouchableWithoutFeedback>
+          </ImageBackground>
+        </View>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
   );
 };
 
