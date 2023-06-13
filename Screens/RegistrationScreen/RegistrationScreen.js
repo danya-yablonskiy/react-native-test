@@ -35,6 +35,8 @@ const RegistrationScreen = () => {
     console.log("login:", login);
     console.log("email:", email);
     console.log("password:", password);
+
+    navigation.navigate("Home");
   };
   return (
     <KeyboardAvoidingView
