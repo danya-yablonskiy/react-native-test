@@ -1,4 +1,5 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { useState } from "react";
 import { Keyboard } from "react-native";
 import { KeyboardAvoidingView } from "react-native";
 
@@ -9,6 +10,9 @@ import {
 } from "react-native-gesture-handler";
 
 export function CreatePostsScreen() {
+  const [name, setName] = useState("");
+  const [location, setLocation] = useState("");
+
   return (
     <KeyboardAvoidingView
       style={{ flex: 1 }}
@@ -24,12 +28,16 @@ export function CreatePostsScreen() {
         </View>
         <Text style={styles.addPhotoText}>Завантажте фото</Text>
         <TextInput
+          value={name}
+          onChangeText={setName}
           style={styles.inputName}
           placeholder="Назва..."
           placeholderStyle={{ fontFamily: "Roboto400" }}
         />
         <View>
           <TextInput
+            value={location}
+            onChangeText={setLocation}
             style={styles.inputLocation}
             placeholder="Місцевість..."
             placeholderStyle={{ fontFamily: "Roboto400" }}
@@ -39,12 +47,16 @@ export function CreatePostsScreen() {
             source={require("../CreatePostsScreen/map-pin.png")}
           />
         </View>
-        <View style={styles.publishTextWrapper }>
-          <Text style={styles.publishText}>Опублікувати</Text>
-        </View>
-        {/* <TouchableOpacity style={styles.button}>
-          <Text style={styles.buttonText}>Опублікувати</Text>
-        </TouchableOpacity> */}
+
+        {name && location !== "" ? (
+          <TouchableOpacity style={styles.button}>
+            <Text style={styles.buttonText}>Опублікувати</Text>
+          </TouchableOpacity>
+        ) : (
+          <View style={styles.publishTextWrapper}>
+            <Text style={styles.publishText}>Опублікувати</Text>
+          </View>
+        )}
       </View>
       {/* </TouchableWithoutFeedback> */}
     </KeyboardAvoidingView>
@@ -86,7 +98,8 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderStyle: "solid",
     borderBottomColor: "#E8E8E8",
-    padding: 16,
+    paddingTop: 16,
+    paddingBottom: 16,
     marginTop: 32,
   },
   inputLocation: {
@@ -107,12 +120,13 @@ const styles = StyleSheet.create({
     top: 46,
   },
   button: {
+    width: "100%",
     alignItems: "center",
     paddingTop: 16,
     paddingBottom: 16,
     borderRadius: 100,
     backgroundColor: "#FF6C00",
-    marginTop: 27,
+    marginTop: 48,
   },
   buttonText: {
     color: "#fff",
