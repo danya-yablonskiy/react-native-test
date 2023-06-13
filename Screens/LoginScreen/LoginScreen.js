@@ -29,6 +29,7 @@ const LoginScreen = () => {
   const handleSubmit = () => {
     console.log("email:", email);
     console.log("password:", password);
+    navigation.navigate("Home");
   };
   return (
     <KeyboardAvoidingView
