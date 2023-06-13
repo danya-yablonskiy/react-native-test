@@ -37,7 +37,7 @@ function ProfileScreen() {
 }
 
 const Home = () => {
-    const navigation = useNavigation();
+  const navigation = useNavigation();
   return (
     <Tabs.Navigator
       tabBar={(props) => <MyTabBar {...props} initialRouteName="Posts" />}
@@ -112,7 +112,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     height: 70,
     width: "100%",
-
     borderTopWidth: 1,
     borderTopColor: "#b3b3b3",
     backgroundColor: "#fff",
