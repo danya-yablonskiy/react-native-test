@@ -4,29 +4,11 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { CreatePostsScreen } from "../CreatePostsScreen/CreatePostsScreen";
 import { PostsScreen } from "../PostsScreen/PostsScreen";
 import { useNavigation } from "@react-navigation/native";
+import { Ionicons } from "@expo/vector-icons";
+import user from "../Home/user.png";
+import union from "../Home/Union.png";
+import grid from "../Home/grid.png";
 const Tabs = createBottomTabNavigator();
-
-function MyTabBar({ navigation }) {
-  return (
-    <View style={styles.bottomMenu}>
-      <Pressable onPress={() => navigation.navigate("Posts")}>
-        <Image source={require("../Home/grid.png")} style={styles.imageGrid} />
-      </Pressable>
-      <TouchableOpacity
-        style={styles.btnPlus}
-        onPress={() => navigation.navigate("CreatePost")}
-      >
-        <Image
-          source={require("../Home/Union.png")}
-          style={styles.btnPlusImg}
-        />
-      </TouchableOpacity>
-      <Pressable onPress={() => navigation.navigate("Profile")}>
-        <Image source={require("../Home/user.png")} style={styles.imageUser} />
-      </Pressable>
-    </View>
-  );
-}
 
 function ProfileScreen() {
   return (
@@ -40,7 +22,20 @@ const Home = () => {
   const navigation = useNavigation();
   return (
     <Tabs.Navigator
-      tabBar={(props) => <MyTabBar {...props} initialRouteName="Posts" />}
+      screenOptions={({ route }) => ({
+        tabBarIcon: () => {
+          let iconSrc;
+
+          if (route.name === "Profile") {
+            iconSrc = user;
+          } else if (route.name === "CreatePost") {
+            iconSrc = union;
+          } else if (route.name === "Posts") {
+            iconSrc = grid;
+          }
+          return <Image source={iconSrc} />;
+        },
+      })}
     >
       <Tabs.Screen
         name="Posts"
