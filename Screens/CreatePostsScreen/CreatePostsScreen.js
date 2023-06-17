@@ -1,64 +1,74 @@
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { useState } from "react";
-import { Keyboard } from "react-native";
-import { KeyboardAvoidingView } from "react-native";
-
-import { View, Text, Image, TextInput, StyleSheet } from "react-native";
 import {
+  View,
+  Text,
+  Image,
+  TextInput,
+  StyleSheet,
   TouchableOpacity,
   TouchableWithoutFeedback,
-} from "react-native-gesture-handler";
+  KeyboardAvoidingView,
+  Keyboard,
+} from "react-native";
 
 export function CreatePostsScreen() {
   const [name, setName] = useState("");
   const [location, setLocation] = useState("");
-
+  console.log(location);
   return (
     <KeyboardAvoidingView
       style={{ flex: 1 }}
       behavior={Platform.OS == "ios" ? "padding" : "height"}
     >
-      {/* <TouchableWithoutFeedback onPress={Keyboard.dismiss}> */}
-      <View style={styles.container}>
-        <View style={styles.addPhotoContainer}>
-          <Image
-            source={require("../CreatePostsScreen/camera.png")}
-            style={styles.addPhotoIcon}
-          />
-        </View>
-        <Text style={styles.addPhotoText}>Завантажте фото</Text>
-        <TextInput
-          value={name}
-          onChangeText={setName}
-          style={styles.inputName}
-          placeholder="Назва..."
-          placeholderStyle={{ fontFamily: "Roboto400" }}
-        />
-        <View>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View style={styles.container}>
+          <View style={styles.addPhotoContainer}>
+            <Image
+              source={require("../CreatePostsScreen/camera.png")}
+              style={styles.addPhotoIcon}
+            />
+          </View>
+          <Text style={styles.addPhotoText}>Завантажте фото</Text>
           <TextInput
-            value={location}
-            onChangeText={setLocation}
-            style={styles.inputLocation}
-            placeholder="Місцевість..."
+            value={name}
+            onChangeText={setName}
+            style={styles.inputName}
+            placeholder="Назва..."
             placeholderStyle={{ fontFamily: "Roboto400" }}
           />
-          <Image
-            style={styles.mapPinIcon}
-            source={require("../CreatePostsScreen/map-pin.png")}
-          />
-        </View>
-
-        {name && location !== "" ? (
-          <TouchableOpacity style={styles.button}>
-            <Text style={styles.buttonText}>Опублікувати</Text>
-          </TouchableOpacity>
-        ) : (
-          <View style={styles.publishTextWrapper}>
-            <Text style={styles.publishText}>Опублікувати</Text>
+          <View>
+            <TextInput
+              value={location}
+              onChangeText={setLocation}
+              style={styles.inputLocation}
+              placeholder="Місцевість..."
+              placeholderStyle={{ fontFamily: "Roboto400" }}
+            />
+            <Image
+              style={styles.mapPinIcon}
+              source={require("../CreatePostsScreen/map-pin.png")}
+            />
           </View>
-        )}
-      </View>
-      {/* </TouchableWithoutFeedback> */}
+
+          {name && location !== "" ? (
+            <TouchableOpacity style={styles.button}>
+              <Text style={styles.buttonText}>Опублікувати</Text>
+            </TouchableOpacity>
+          ) : (
+            <View style={styles.publishTextWrapper}>
+              <Text style={styles.publishText}>Опублікувати</Text>
+            </View>
+          )}
+          <View style={styles.trashIconWrapper}>
+            <TouchableOpacity style={styles.trashIconTouchable}>
+              <Image
+                style={styles.trashIcon}
+                source={require("../CreatePostsScreen/trash.png")}
+              />
+            </TouchableOpacity>
+          </View>
+        </View>
+      </TouchableWithoutFeedback>
     </KeyboardAvoidingView>
   );
 }
@@ -92,7 +102,7 @@ const styles = StyleSheet.create({
   },
   inputName: {
     height: 50,
-    fontFamily: "Roboto500",
+    fontFamily: "Roboto400",
     fontSize: 16,
     lineHeight: 19,
     borderBottomWidth: 1,
@@ -143,5 +153,22 @@ const styles = StyleSheet.create({
     fontSize: 16,
     lineHeight: 19,
     color: "#BDBDBD",
+  },
+
+  trashIconWrapper: {
+    alignItems: "center",
+    // ЗМІНИТИ МАРЖИН!!!
+    marginTop: 40,
+  },
+  trashIconTouchable: {
+    borderRadius: 20,
+    alignItems: "center",
+    justifyContent: "center",
+    width: 70,
+    height: 40,
+  },
+  trashIcon: {
+    width: 24,
+    height: 24,
   },
 });
