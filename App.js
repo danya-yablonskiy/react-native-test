@@ -2,9 +2,12 @@ import "react-native-gesture-handler";
 import { useFonts } from "expo-font";
 import RegistrationScreen from "./Screens/RegistrationScreen/RegistrationScreen";
 import LoginScreen from "./Screens/LoginScreen/LoginScreen";
-import { NavigationContainer } from "@react-navigation/native";
+import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import Home from "./Screens/Home/Home";
+import CommentsScreen from "./Screens/CommenstScreen/CommentsScreen";
+import { Pressable, StyleSheet } from "react-native";
+import { Image } from "react-native";
 
 export default App = () => {
   const [fontsLoaded] = useFonts({
@@ -15,7 +18,7 @@ export default App = () => {
   if (!fontsLoaded) {
     return null;
   }
-
+  // const navigation = useNavigation();
   const MainStack = createStackNavigator();
 
   return (
@@ -36,7 +39,41 @@ export default App = () => {
           component={Home}
           options={{ headerShown: false }}
         />
+        <MainStack.Screen
+          name="Comments"
+          component={CommentsScreen}
+          options={{
+            headerTitle: "Коментарі",
+            headerTitleAlign: "center",
+            headerStyle: {
+              borderBottomWidth: 1,
+              borderBottomColor: "#bdbdbd",
+            },
+            headerTitleStyle: {
+              fontFamily: "Roboto500",
+              fontSize: 17,
+              lineHeight: 22,
+              color: "#212121",
+            },
+            headerLeft: () => (
+              // <Pressable onPress={() => navigation.goBack()}>
+              <Image
+                source={require("./Screens/Home/arrow-left.png")}
+                style={styles.arrowIcon}
+              />
+              // </Pressable>
+            ),
+          }}
+        />
       </MainStack.Navigator>
     </NavigationContainer>
   );
 };
+
+const styles = StyleSheet.create({
+  arrowIcon: {
+    width: 24,
+    height: 24,
+    marginLeft: 16,
+  },
+});
