@@ -72,7 +72,7 @@ const CommentsScreen = () => {
             <TouchableOpacity style={styles.commentBtn}>
               <Image
                 style={styles.commentBtnIcon}
-                source={require("../CommenstScreen/arrowUp.png")}
+                source={require("../CommenstScreen/Vector.png")}
               />
             </TouchableOpacity>
           </View>
