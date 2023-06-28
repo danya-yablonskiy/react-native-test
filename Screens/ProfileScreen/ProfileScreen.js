@@ -45,7 +45,7 @@ export function ProfileScreen() {
           >
             <Image source={require("../Home/log-out.png")} />
           </Pressable>
-          {/* <View style={styles.imageWrapper}>
+          <View style={styles.imageWrapper}>
             <Image source={require("../Home/natureImage-1.png")} />
           </View>
           <Text style={styles.imageText}>Ліс</Text>
@@ -131,7 +131,7 @@ export function ProfileScreen() {
               />
               <Text>Italy</Text>
             </View>
-          </View> */}
+          </View>
         </View>
       </ImageBackground>
     </View>
