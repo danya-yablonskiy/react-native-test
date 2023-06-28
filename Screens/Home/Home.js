@@ -1,22 +1,16 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Text, View, Pressable, StyleSheet, Image } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
+
 import { CreatePostsScreen } from "../CreatePostsScreen/CreatePostsScreen";
 import { PostsScreen } from "../PostsScreen/PostsScreen";
 import { useNavigation } from "@react-navigation/native";
-import { Ionicons } from "@expo/vector-icons";
-import user from "../Home/user.png";
-import union from "../Home/Union.png";
-import grid from "../Home/grid.png";
+
+import { unionImg, userImg, gridImg } from "./tabBarImages";
+import { ProfileScreen } from "../ProfileScreen/ProfileScreen";
+
 const Tabs = createBottomTabNavigator();
 
-function ProfileScreen() {
-  return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Text>ProfileScreen!</Text>
-    </View>
-  );
-}
+
 
 const Home = () => {
   const navigation = useNavigation();
@@ -27,14 +21,24 @@ const Home = () => {
           let iconSrc;
 
           if (route.name === "Profile") {
-            iconSrc = user;
+            iconSrc = userImg();
           } else if (route.name === "CreatePost") {
-            iconSrc = union;
+            iconSrc = unionImg();
           } else if (route.name === "Posts") {
-            iconSrc = grid;
+            iconSrc = gridImg();
           }
-          return <Image source={iconSrc} />;
+          return iconSrc;
         },
+        tabBarStyle: {
+          borderWidth: 1,
+          borderStyle: "solid",
+          borderColor: "#E8E8E8",
+          paddingLeft: 50,
+          paddingRight: 50,
+          paddingTop: 9,
+          paddingBottom: 9,
+        },
+        tabBarShowLabel: false,
       })}
     >
       <Tabs.Screen
@@ -89,7 +93,11 @@ const Home = () => {
           ),
         }}
       />
-      <Tabs.Screen name="Profile" component={ProfileScreen} />
+      <Tabs.Screen
+        name="Profile"
+        component={ProfileScreen}
+        options={{ headerShown: false }}
+      />
     </Tabs.Navigator>
   );
 };
