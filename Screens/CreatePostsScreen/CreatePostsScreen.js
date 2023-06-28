@@ -159,6 +159,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     // ЗМІНИТИ МАРЖИН!!!
     marginTop: 40,
+    backgroundColor: "#F6F6F6",
+    width: 70,
+    height: 40,
+    borderRadius: 20,
+    alignSelf: "center",
   },
   trashIconTouchable: {
     borderRadius: 20,
