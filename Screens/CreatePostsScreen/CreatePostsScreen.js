@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -10,11 +10,29 @@ import {
   KeyboardAvoidingView,
   Keyboard,
 } from "react-native";
+import { Camera } from "expo-camera";
+import * as MediaLibrary from "expo-media-library";
 
 export function CreatePostsScreen() {
   const [name, setName] = useState("");
   const [location, setLocation] = useState("");
   console.log(location);
+
+  const [hasPermission, setHasPermission] = useState(null);
+  const [cameraRef, setCameraRef] = useState(null);
+  const [type, setType] = useState(Camera.Constants.Type.back);
+  const [takenPhoto, setTakenPhoto] = useState(null);
+
+  useEffect(() => {
+    (async () => {
+      const { status } = await Camera.requestCameraPermissionsAsync();
+      setHasPermission(status === "granted");
+    })();
+  }, []);
+
+  if (hasPermission === false) {
+    return <Text>No access to camera</Text>;
+  }
   return (
     <KeyboardAvoidingView
       style={{ flex: 1 }}
@@ -22,12 +40,23 @@ export function CreatePostsScreen() {
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.container}>
-          <View style={styles.addPhotoContainer}>
-            <Image
-              source={require("../CreatePostsScreen/camera.png")}
-              style={styles.addPhotoIcon}
-            />
-          </View>
+          <Camera type={type} ref={setCameraRef}>
+            <TouchableOpacity
+              onPress={async () => {
+                if (cameraRef) {
+                  const { uri } = await cameraRef.takePictureAsync();
+                  setTakenPhoto(uri);
+                }
+              }}
+            >
+              <View style={styles.addPhotoContainer}>
+                <Image
+                  source={require("../CreatePostsScreen/camera.png")}
+                  style={styles.addPhotoIcon}
+                />
+              </View>
+            </TouchableOpacity>
+          </Camera>
           <Text style={styles.addPhotoText}>Завантажте фото</Text>
           <TextInput
             value={name}
