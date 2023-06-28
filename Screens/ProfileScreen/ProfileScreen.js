@@ -1,7 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
-import { useState } from "react";
+
 import {
-  TextInput,
   View,
   Text,
   StyleSheet,
@@ -10,9 +9,6 @@ import {
   TouchableOpacity,
   Image,
   StatusBar,
-  KeyboardAvoidingView,
-  TouchableWithoutFeedback,
-  Keyboard,
 } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 
@@ -43,8 +39,13 @@ export function ProfileScreen() {
           />
 
           <Text style={styles.title}>Natali Romanova</Text>
-
-          <View style={styles.imageWrapper}>
+          <Pressable
+            onPress={() => navigation.navigate("Login")}
+            style={styles.logOutIcon}
+          >
+            <Image source={require("../Home/log-out.png")} />
+          </Pressable>
+          {/* <View style={styles.imageWrapper}>
             <Image source={require("../Home/natureImage-1.png")} />
           </View>
           <Text style={styles.imageText}>Ліс</Text>
@@ -130,7 +131,7 @@ export function ProfileScreen() {
               />
               <Text>Italy</Text>
             </View>
-          </View>
+          </View> */}
         </View>
       </ImageBackground>
     </View>
@@ -148,14 +149,15 @@ const styles = StyleSheet.create({
     top: -60,
     width: 120,
     height: 120,
-    backgroundColor: "#F6F6F6",
+
     borderRadius: 16,
   },
   deleteAvatarIcon: {
     position: "absolute",
-    width: 40,
-    height: 40,
-    left: 227,
+    width: 35,
+    height: 35,
+    top: 15,
+    left: 229,
   },
   title: {
     textAlign: "center",
@@ -187,9 +189,6 @@ const styles = StyleSheet.create({
   detailsWrapper: {
     marginTop: 8,
     flexDirection: "row",
-    backgroundColor: "red",
-    //   ЧОМУ ЦЕ НЕ ПРАЦЮЄ??
-    // alignContent:'space-around'
   },
   shapeIcon: {
     width: 18,
@@ -211,16 +210,23 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
   },
-  locationWrapper: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginLeft: 154,
-    //  ЧОМУ ЦЕ НЕ ПРАЦЮЄ????
-    // alignSelf: 'flex-end',
-  },
   likeCountWrapper: {
     flexDirection: "row",
     alignItems: "center",
     marginLeft: 24,
+  },
+  locationWrapper: {
+    flexDirection: "row",
+    alignItems: "center",
+
+    marginLeft: "auto",
+  },
+
+  logOutIcon: {
+    width: 24,
+    height: 24,
+    position: "absolute",
+    top: 22,
+    right: 16,
   },
 });
