@@ -8,14 +8,18 @@ const MapScreen = () => {
       <MapView
         style={styles.mapStyle}
         region={{
-          ...location,
+          ...currentPlace,
           latitudeDelta: 0.0922,
           longitudeDelta: 0.0421,
         }}
         showsUserLocation={true}
       >
-        {location && (
-          <Marker title="I am here" coordinate={location} description="Hello" />
+        {currentPlace && (
+          <Marker
+            title="I am here"
+            coordinate={currentPlace}
+            description="Hello"
+          />
         )}
       </MapView>
     </View>
