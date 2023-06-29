@@ -8,6 +8,8 @@ import Home from "./Screens/Home/Home";
 import CommentsScreen from "./Screens/CommenstScreen/CommentsScreen";
 import { Pressable, StyleSheet } from "react-native";
 import { Image } from "react-native";
+import MapScreen from "./Screens/MapScreen/MapScreen";
+import { useState } from "react";
 
 export default App = () => {
   const [fontsLoaded] = useFonts({
@@ -21,6 +23,7 @@ export default App = () => {
   // const navigation = useNavigation();
   const MainStack = createStackNavigator();
 
+  
   return (
     <NavigationContainer>
       <MainStack.Navigator initialRouteName="Login">
@@ -64,6 +67,12 @@ export default App = () => {
               // </Pressable>
             ),
           }}
+        />
+        <MainStack.Screen
+          name="Map"
+          component={MapScreen}
+          options={{ headerShown: false }}
+      
         />
       </MainStack.Navigator>
     </NavigationContainer>
