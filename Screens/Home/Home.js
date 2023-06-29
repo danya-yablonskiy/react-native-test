@@ -7,13 +7,13 @@ import { useNavigation } from "@react-navigation/native";
 
 import { unionImg, userImg, gridImg } from "./tabBarImages";
 import { ProfileScreen } from "../ProfileScreen/ProfileScreen";
+import { useState } from "react";
 
 const Tabs = createBottomTabNavigator();
 
-
-
 const Home = () => {
   const navigation = useNavigation();
+
   return (
     <Tabs.Navigator
       screenOptions={({ route }) => ({
