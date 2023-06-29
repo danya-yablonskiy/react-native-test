@@ -11,12 +11,17 @@ import {
   Keyboard,
 } from "react-native";
 import { Camera } from "expo-camera";
-import * as MediaLibrary from "expo-media-library";
+
+import { useNavigation } from "@react-navigation/native";
+import * as Location from "expo-location";
 
 export function CreatePostsScreen() {
+  const navigation = useNavigation();
+
   const [name, setName] = useState("");
   const [location, setLocation] = useState("");
-  console.log(location);
+
+  const [currentPlace, setCurrentPlace] = useState(null);
 
   const [hasPermission, setHasPermission] = useState(null);
   const [cameraRef, setCameraRef] = useState(null);
@@ -33,6 +38,26 @@ export function CreatePostsScreen() {
   if (hasPermission === false) {
     return <Text>No access to camera</Text>;
   }
+  const handleSumbit = () => {
+    (async () => {
+      const { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        console.log("Permission to access location was denied");
+      }
+
+      const location = await Location.getCurrentPositionAsync();
+      const coords = {
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+      };
+
+      setCurrentPlace(coords);
+      setTakenPhoto(null);
+      setName("");
+      setLocation("");
+      navigation.navigate("Posts");
+    })();
+  };
   return (
     <KeyboardAvoidingView
       style={{ flex: 1 }}
@@ -40,23 +65,38 @@ export function CreatePostsScreen() {
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.container}>
-          <Camera type={type} ref={setCameraRef}>
-            <TouchableOpacity
-              onPress={async () => {
-                if (cameraRef) {
-                  const { uri } = await cameraRef.takePictureAsync();
-                  setTakenPhoto(uri);
-                }
-              }}
-            >
-              <View style={styles.addPhotoContainer}>
+          {takenPhoto ? (
+            <View style={styles.addPhotoContainer}>
+              <Image
+                source={{ uri: takenPhoto }}
+                style={styles.publicationPhoto}
+              />
+              <View style={styles.publicationAddPhotoIconWrapper}>
                 <Image
-                  source={require("../CreatePostsScreen/camera.png")}
-                  style={styles.addPhotoIcon}
+                  source={require("../CreatePostsScreen/camera-white.png")}
+                  style={styles.publicationAddPhotoIcon}
                 />
               </View>
-            </TouchableOpacity>
-          </Camera>
+            </View>
+          ) : (
+            <Camera type={type} ref={setCameraRef}>
+              <TouchableOpacity
+                onPress={async () => {
+                  if (cameraRef) {
+                    const { uri } = await cameraRef.takePictureAsync();
+                    setTakenPhoto(uri);
+                  }
+                }}
+              >
+                <View style={styles.addPhotoContainer}>
+                  <Image
+                    source={require("../CreatePostsScreen/camera.png")}
+                    style={styles.addPhotoIcon}
+                  />
+                </View>
+              </TouchableOpacity>
+            </Camera>
+          )}
           <Text style={styles.addPhotoText}>Завантажте фото</Text>
           <TextInput
             value={name}
@@ -80,7 +120,7 @@ export function CreatePostsScreen() {
           </View>
 
           {name && location !== "" ? (
-            <TouchableOpacity style={styles.button}>
+            <TouchableOpacity style={styles.button} onPress={handleSumbit}>
               <Text style={styles.buttonText}>Опублікувати</Text>
             </TouchableOpacity>
           ) : (
@@ -89,7 +129,12 @@ export function CreatePostsScreen() {
             </View>
           )}
           <View style={styles.trashIconWrapper}>
-            <TouchableOpacity style={styles.trashIconTouchable}>
+            <TouchableOpacity
+              style={styles.trashIconTouchable}
+              onPress={() => {
+                setTakenPhoto(null);
+              }}
+            >
               <Image
                 style={styles.trashIcon}
                 source={require("../CreatePostsScreen/trash.png")}
@@ -126,6 +171,19 @@ const styles = StyleSheet.create({
     color: "#BDBDBD",
   },
   addPhotoIcon: {
+    width: 24,
+    height: 24,
+  },
+  publicationAddPhotoIconWrapper: {
+    position: "absolute",
+    backgroundColor: "rgba(255, 255, 255, 0.3)",
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  publicationAddPhotoIcon: {
     width: 24,
     height: 24,
   },
@@ -177,17 +235,22 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   publishText: {
-    marginTop: 48,
+    // marginTop: 48,
     fontFamily: "Roboto400",
     fontSize: 16,
     lineHeight: 19,
     color: "#BDBDBD",
   },
-
+  publicationPhoto: {
+    height: "100%",
+    width: "100%",
+    objectFit: "cover",
+    borderRadius: 8,
+  },
   trashIconWrapper: {
     alignItems: "center",
     // ЗМІНИТИ МАРЖИН!!!
-    marginTop: 40,
+    // marginTop: 40,
     backgroundColor: "#F6F6F6",
     width: 70,
     height: 40,
