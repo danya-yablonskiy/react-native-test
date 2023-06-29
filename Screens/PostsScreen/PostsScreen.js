@@ -1,5 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import { TouchableOpacity } from "react-native";
+import { Pressable } from "react-native";
 import { View, Image, Text } from "react-native";
 import { StyleSheet } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
@@ -37,7 +38,9 @@ export function PostsScreen() {
             style={styles.mapPinIcon}
             source={require("../CreatePostsScreen/map-pin.png")}
           />
-          <Text>Ivano-Frankivs'k Region, Ukraine</Text>
+          <Pressable onPress={() => navigation.navigate("Map")}>
+            <Text>Ivano-Frankivs'k Region, Ukraine</Text>
+          </Pressable>
         </View>
         <View>
           <View style={styles.imageWrapper}>
@@ -60,7 +63,6 @@ const styles = StyleSheet.create({
   userInfo: {
     flexDirection: "row",
     alignItems: "center",
-    
   },
   userPhoto: {
     width: 60,
@@ -83,8 +85,6 @@ const styles = StyleSheet.create({
   imageWrapper: {
     marginTop: 32,
     borderRadius: 8,
-
-    
   },
   imageText: {
     marginTop: 8,
@@ -96,7 +96,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     marginTop: 8,
     alignItems: "center",
-    
   },
   shapeIcon: {
     width: 18,
