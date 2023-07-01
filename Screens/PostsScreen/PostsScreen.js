@@ -5,8 +5,17 @@ import { View, Image, Text } from "react-native";
 import { StyleSheet } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 
-export function PostsScreen() {
+export function PostsScreen({ route }) {
   const navigation = useNavigation();
+
+  const isCurrentPlace = () => {
+    if (route.params.currentPlace) {
+      navigation.navigate("Map", {
+        currentPlace: route.params.currentPlace,
+      });
+    }
+    return;
+  };
   return (
     <View style={styles.container}>
       <View style={styles.userInfo}>
@@ -38,7 +47,7 @@ export function PostsScreen() {
             style={styles.mapPinIcon}
             source={require("../CreatePostsScreen/map-pin.png")}
           />
-          <Pressable onPress={() => navigation.navigate("Map")}>
+          <Pressable onPress={isCurrentPlace}>
             <Text>Ivano-Frankivs'k Region, Ukraine</Text>
           </Pressable>
         </View>
