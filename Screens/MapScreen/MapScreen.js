@@ -2,15 +2,14 @@ import { View } from "react-native";
 import { Dimensions } from "react-native";
 import { StyleSheet } from "react-native";
 import MapView, { Marker } from "react-native-maps";
-const MapScreen = () => {
+const MapScreen = ({ route }) => {
+  const { currentPlace } = route.params;
   return (
     <View style={styles.container}>
       <MapView
         style={styles.mapStyle}
         region={{
           ...currentPlace,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421,
         }}
         showsUserLocation={true}
       >
