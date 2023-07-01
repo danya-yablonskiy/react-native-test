@@ -55,7 +55,8 @@ export function CreatePostsScreen() {
       setTakenPhoto(null);
       setName("");
       setLocation("");
-      navigation.navigate("Posts");
+
+      navigation.navigate("Posts", { currentPlace });
     })();
   };
   return (
@@ -81,6 +82,7 @@ export function CreatePostsScreen() {
           ) : (
             <Camera type={type} ref={setCameraRef}>
               <TouchableOpacity
+                s
                 onPress={async () => {
                   if (cameraRef) {
                     const { uri } = await cameraRef.takePictureAsync();
@@ -155,13 +157,9 @@ const styles = StyleSheet.create({
     paddingTop: 32,
   },
   addPhotoContainer: {
-    backgroundColor: "#F6F6F6",
     height: 240,
     alignItems: "center",
     justifyContent: "center",
-    borderWidth: 1,
-    borderColor: "#E8E8E8",
-    borderRadius: 8,
   },
   addPhotoText: {
     fontFamily: "Roboto400",
